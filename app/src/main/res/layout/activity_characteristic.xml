@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewColour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Type"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Colour"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/textViewColour"
+        app:layout_constraintTop_toBottomOf="@+id/textViewColour" />
+
+    <TextView
+        android:id="@+id/textViewGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Gender"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/textViewType"
+        app:layout_constraintTop_toBottomOf="@+id/textViewType" />
+
+    <TextView
+        android:id="@+id/textViewSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Size"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/textViewGender"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGender" />
+
+    <EditText
+        android:id="@+id/editTextType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="40dp"
+        android:ems="10"
+        android:hint="Elegant, sport, etc."
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewColour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewColour"
+        app:layout_constraintTop_toTopOf="@+id/textViewColour" />
+
+    <EditText
+        android:id="@+id/editTextColour"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Black, white, etc."
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewType"
+        app:layout_constraintEnd_toEndOf="@+id/editTextType"
+        app:layout_constraintStart_toStartOf="@+id/editTextType"
+        app:layout_constraintTop_toTopOf="@+id/textViewType" />
+
+    <EditText
+        android:id="@+id/editTextSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Shoe's size, numerical"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewSize"
+        app:layout_constraintEnd_toEndOf="@+id/spinnerGender"
+        app:layout_constraintStart_toStartOf="@+id/spinnerGender"
+        app:layout_constraintTop_toTopOf="@+id/textViewSize" />
+
+    <Spinner
+        android:id="@+id/spinnerGender"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewGender"
+        app:layout_constraintEnd_toEndOf="@+id/editTextColour"
+        app:layout_constraintStart_toStartOf="@+id/editTextColour"
+        app:layout_constraintTop_toTopOf="@+id/textViewGender" />
+</android.support.constraint.ConstraintLayout>
