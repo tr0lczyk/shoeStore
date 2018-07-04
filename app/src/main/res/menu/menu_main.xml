@@ -12,6 +12,6 @@
     <item
         android:title="Delete all pairs"
         app:showAsAction="never"
-        android:id="@+id/add_a_new_pair"/>
+        android:id="@+id/delete_all"/>
 
 </menu>

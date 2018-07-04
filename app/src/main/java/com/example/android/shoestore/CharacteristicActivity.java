@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.android.shoestore.data.ShoesContract;
+import com.example.android.shoestore.data.ShoesContract.ShoeEntry;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
@@ -59,11 +62,11 @@ public class CharacteristicActivity extends AppCompatActivity {
         String genderSelect = (String) parent.getItemAtPosition(position);
         if (!TextUtils.isEmpty(genderSelect)){
             if(genderSelect.equals(R.string.gender_male)){
-                genderType = 1;
+                genderType = ShoeEntry.GENDER_TYPE_MALE;
             } else if(genderSelect.equals(R.string.gender_female)){
-                genderType = 2;
+                genderType = ShoeEntry.GENDER_TYPE_FEMALE;
             } else {
-                genderType = 0;
+                genderType = ShoeEntry.GENDER_TYPE_METRO;
             }
         }
     }

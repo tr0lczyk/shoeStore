@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Shoe store</string>
 
-    <string name="gender_unknown">Unknown</string>
+    <string name="gender_unknown">Metro</string>
 
     <string name="gender_male">Male</string>
 
