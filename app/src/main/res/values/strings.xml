@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Shoe store</string>
+
+    <string name="gender_unknown">Unknown</string>
+
+    <string name="gender_male">Male</string>
+
+    <string name="gender_female">Female</string>
+
+    <string name="save_button">Save me!</string>
+
+    <string name="delete_button">Delete me!</string>
+
 </resources>
