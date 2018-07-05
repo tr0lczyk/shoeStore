@@ -1,9 +1,13 @@
 package com.example.android.shoestore;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.shoestore.data.ShoesContract;
 import com.example.android.shoestore.data.ShoesContract.ShoeEntry;
+import com.example.android.shoestore.data.ShoesDbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +46,7 @@ public class CharacteristicActivity extends AppCompatActivity {
     Spinner spinnerGender;
 
     private int genderType;
+    private ShoesDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,29 @@ public class CharacteristicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_characteristic);
         ButterKnife.bind(this);
         setupSpinner();
+        dbHelper = new ShoesDbHelper(this);
+    }
+
+    private void insertPet(){
+        String typeData = editTextType.getText().toString().trim();
+        String colourData = editTextColour.getText().toString().trim();
+        int sizeData = Integer.parseInt(editTextSize.getText().toString().trim());
+
+        ContentValues values = new ContentValues();
+        values.put(ShoeEntry.COLUMN_TYPE, typeData);
+        values.put(ShoeEntry.COLUMN_COLOUR, colourData);
+        values.put(ShoeEntry.COLUMN_GENDER, genderType);
+        values.put(ShoeEntry.COLUMN_SIZE, sizeData);
+
+        Uri newUri = getContentResolver().insert(ShoeEntry.CONTENT_URI, values);
+
+        if (newUri == null) {
+            Toast.makeText(this, getString(R.string.shoes_save_fail),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.save_success),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupSpinner(){
@@ -76,6 +106,7 @@ public class CharacteristicActivity extends AppCompatActivity {
         genderType = 0;
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_characteristic,menu);
@@ -86,6 +117,8 @@ public class CharacteristicActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.save_button:
+                insertPet();
+                finish();
                 return true;
             case R.id.delete_button:
             return true;

@@ -10,5 +10,7 @@
     <string name="save_button">Save me!</string>
 
     <string name="delete_button">Delete me!</string>
+    <string name="shoes_save_fail">Error with saving Shoes</string>
+    <string name="save_success">Save success!</string>
 
 </resources>
