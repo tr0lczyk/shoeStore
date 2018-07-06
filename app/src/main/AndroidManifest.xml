@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".CharacteristicActivity"
-            android:label="Add a pair"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

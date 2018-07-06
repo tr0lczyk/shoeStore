@@ -10,7 +10,7 @@ public final class ShoesDbHelper extends SQLiteOpenHelper {
 
     public static final String LOG_TAG = ShoesDbHelper.class.getSimpleName();
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "shoesStore";
+    private static final String DATABASE_NAME = "shoesStore.db";
 
     public ShoesDbHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);

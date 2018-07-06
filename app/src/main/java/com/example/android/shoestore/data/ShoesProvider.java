@@ -14,11 +14,8 @@ import com.example.android.shoestore.data.ShoesContract.ShoeEntry;
 public class ShoesProvider extends ContentProvider {
 
     private static final String LOG_TAG = ShoesProvider.class.getSimpleName();
-
     private static final int SHOES = 100;
-
     private static final int SHOES_ID = 101;
-
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
@@ -33,7 +30,6 @@ public class ShoesProvider extends ContentProvider {
         dbHelper = new ShoesDbHelper(getContext());
         return false;
     }
-
 
     @Override
     public Cursor query( Uri uri,  String[] projection,  String selection,  String[] selectionArgs,  String sortOrder) {
@@ -77,20 +73,19 @@ public class ShoesProvider extends ContentProvider {
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
-
-
+    
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case SHOES:
-                return insertPet(uri, contentValues);
+                return insertShoes(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
-    private Uri insertPet(Uri uri, ContentValues values) {
+    private Uri insertShoes(Uri uri, ContentValues values) {
 
         String type = values.getAsString(ShoeEntry.COLUMN_TYPE);
         if (type == null) {
@@ -118,6 +113,8 @@ public class ShoesProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+        getContext().getContentResolver().notifyChange(uri, null);
+
         return ContentUris.withAppendedId(uri, id);
     }
 
@@ -125,17 +122,25 @@ public class ShoesProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
+        int rowsDeleted;
+
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case SHOES:
-                return database.delete(ShoeEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ShoeEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case SHOES_ID:
                 selection = ShoeEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return database.delete(ShoeEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ShoeEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+        if(rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+        return rowsDeleted;
     }
 
     @Override
@@ -144,20 +149,17 @@ public class ShoesProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case SHOES:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateShoes(uri, contentValues, selection, selectionArgs);
             case SHOES_ID:
-                // For the PET_ID code, extract out the ID from the URI,
-                // so we know which row to update. Selection will be "_id=?" and selection
-                // arguments will be a String array containing the actual ID.
                 selection = ShoeEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateShoes(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateShoes(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         if (values.containsKey(ShoeEntry.COLUMN_TYPE)) {
             String name = values.getAsString(ShoeEntry.COLUMN_TYPE);
@@ -192,6 +194,11 @@ public class ShoesProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
-        return database.update(ShoeEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        int rowsUpdated = database.update(ShoeEntry.TABLE_NAME, values, selection, selectionArgs);
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
     }
 }

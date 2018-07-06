@@ -12,5 +12,23 @@
     <string name="delete_button">Delete me!</string>
     <string name="shoes_save_fail">Error with saving Shoes</string>
     <string name="save_success">Save success!</string>
+    <string name="it_s_nothing_here_yet">It\'s nothing here...yet ;)</string>
+    <string name="maybe_add_a_pair">Maybe add a pair?</string>
+    <string name="add_pair">Add a pair of shoes</string>
+    <string name="edit_pair">Edit a pair of shoes</string>
+    <string name="error_with_saving">Error with saving pair of shoes</string>
+    <string name="pair_saved">Pair of shoes saved!</string>
+    <string name="update_success">Update successful!</string>
+    <string name="update_fail">Update failed :(</string>
+    <string name="delete_fail">Error with deleting pair of shoes</string>
+    <string name="delete_success">Deleting pair of shoes successful</string>
+    <string name="delete_this_pair">Delete this pair?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="discard_and_quit">Discard the changes you made and quit?</string>
+    <string name="discard">Discard</string>
+    <string name="continue_editing">Continue editing</string>
+    <string name="unknown_type">Unknown Type</string>
+    <string name="unknown_colour">Unknown colour</string>
 
 </resources>
