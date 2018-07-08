@@ -75,7 +75,7 @@ public class CharacteristicActivity extends AppCompatActivity implements
 
     private boolean shoesHasChanged = false;
 
-    private int quantityValue;
+    private int quantityValue = 1;
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
@@ -152,7 +152,7 @@ public class CharacteristicActivity extends AppCompatActivity implements
         values.put(ShoeEntry.COLUMN_GENDER, genderType);
 
         values.put(ShoeEntry.COLUMN_QUANTITY, quantityString);
-        if (TextUtils.isEmpty(quantityString)){
+        if (TextUtils.isEmpty(quantityString) || Integer.parseInt(quantityString) == 0){
             Toast.makeText(this, getString(R.string.shoe_quantity),Toast.LENGTH_SHORT).show();
             return allesKlar;
         }
@@ -415,7 +415,9 @@ public class CharacteristicActivity extends AppCompatActivity implements
 
     @OnClick(R.id.minus_button)
     public void onMinusButtonClicked() {
-        if (quantityValue == 0) {
+        if (quantityValue <= 1 ) {
+            quantityValue = 1;
+            displayQuantity();
             Toast.makeText(this, R.string.lower_than, Toast.LENGTH_SHORT).show();
         } else {
             quantityValue--;
