@@ -114,7 +114,10 @@ public class CharacteristicActivity extends AppCompatActivity implements
 
     }
 
-    private void saveShoes() {
+    private boolean saveShoes() {
+
+        boolean allesKlar = false;
+
         String typeString = editTextType.getText().toString().trim();
         String colourString = editTextColour.getText().toString().trim();
         String sizeString = editTextSize.getText().toString().trim();
@@ -122,34 +125,61 @@ public class CharacteristicActivity extends AppCompatActivity implements
         String numberString = supplierNumber.getText().toString();
 
         if (currentShoesUri == null &&
-                TextUtils.isEmpty(typeString) && TextUtils.isEmpty(colourString) &&
-                TextUtils.isEmpty(sizeString) && TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(typeString) &&
+                TextUtils.isEmpty(colourString) &&
+                TextUtils.isEmpty(sizeString) &&
+                TextUtils.isEmpty(quantityString) &&
                 TextUtils.isEmpty(numberString) &&
                 genderType == ShoeEntry.GENDER_TYPE_METRO) {
-            return;
+            allesKlar = true;
+            return allesKlar;
         }
+
         ContentValues values = new ContentValues();
+
         values.put(ShoeEntry.COLUMN_TYPE, typeString);
+        if (TextUtils.isEmpty(typeString)) {
+            Toast.makeText(this, getString(R.string.type_req), Toast.LENGTH_SHORT).show();
+            return allesKlar;
+        }
+
         values.put(ShoeEntry.COLUMN_COLOUR, colourString);
+        if (TextUtils.isEmpty(colourString)) {
+            Toast.makeText(this, getString(R.string.supp_name_req), Toast.LENGTH_SHORT).show();
+            return allesKlar;
+        }
+
         values.put(ShoeEntry.COLUMN_GENDER, genderType);
+
         values.put(ShoeEntry.COLUMN_QUANTITY, quantityString);
+        if (TextUtils.isEmpty(quantityString)){
+            Toast.makeText(this, getString(R.string.shoe_quantity),Toast.LENGTH_SHORT).show();
+            return allesKlar;
+        }
         values.put(ShoeEntry.COLUMN_NUMBER, numberString);
+        if (TextUtils.isEmpty(numberString)){
+            Toast.makeText(this, getString(R.string.number_req),Toast.LENGTH_SHORT).show();
+            return allesKlar;
+        }
+
         int size = 0;
         if (!TextUtils.isEmpty(sizeString)) {
             size = Integer.parseInt(sizeString);
         }
         values.put(ShoeEntry.COLUMN_SIZE, size);
+        if (TextUtils.isEmpty(sizeString)) {
+            Toast.makeText(this, R.string.shoes_price, Toast.LENGTH_SHORT).show();
+            return allesKlar;
+        }
         if (currentShoesUri == null) {
             Uri newUri = getContentResolver().insert(ShoeEntry.CONTENT_URI, values);
             if (newUri == null) {
                 Toast.makeText(this, getString(R.string.error_with_saving),
                         Toast.LENGTH_SHORT).show();
             } else {
-                // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.pair_saved),
                         Toast.LENGTH_SHORT).show();
             }
-
         } else {
 
             int rowsAffected = getContentResolver().update(currentShoesUri, values, null, null);
@@ -161,6 +191,8 @@ public class CharacteristicActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
+        allesKlar = true;
+        return allesKlar;
     }
 
     private void setupSpinner() {
@@ -212,8 +244,9 @@ public class CharacteristicActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_button:
-                saveShoes();
-                finish();
+                if (saveShoes()) {
+                    finish();
+                }
                 return true;
             case R.id.delete_button:
                 showDeleteConfirmationDialog();

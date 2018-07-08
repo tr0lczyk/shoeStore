@@ -33,5 +33,10 @@
     <string name="unknown_quantity">Unknown quantity</string>
     <string name="lower_than">Quantity cannot be lower than one!</string>
     <string name="no_shoes">No pair of shoes left :(</string>
+    <string name="type_req">Shoes type required</string>
+    <string name="supp_name_req">Supplier\'s name is required</string>
+    <string name="shoe_quantity">Shoe\'s quantity required</string>
+    <string name="number_req">Supplier\'s phone number cannot be empty</string>
+    <string name="shoes_price">Shoe\'s price required</string>
 
 </resources>
