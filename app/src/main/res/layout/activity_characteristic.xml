@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Colour"
+        android:text="Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/textViewColour"
         app:layout_constraintTop_toBottomOf="@+id/textViewColour" />
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Size"
+        android:text="Price"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/textViewGender"
         app:layout_constraintTop_toBottomOf="@+id/textViewGender" />
@@ -69,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Black, white, etc."
+        android:hint="Supplier's name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textViewType"
         app:layout_constraintEnd_toEndOf="@+id/editTextType"
@@ -81,11 +81,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Shoe's size, numerical"
+        android:hint="Shoe's price, numerical"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textViewSize"
         app:layout_constraintEnd_toEndOf="@+id/spinnerGender"
-        app:layout_constraintStart_toStartOf="@+id/spinnerGender"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textViewSize" />
 
     <Spinner
@@ -97,4 +97,103 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextColour"
         app:layout_constraintStart_toStartOf="@+id/editTextColour"
         app:layout_constraintTop_toTopOf="@+id/textViewGender" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="16dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="$"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSize"
+        app:layout_constraintStart_toStartOf="@+id/spinnerGender"
+        app:layout_constraintTop_toTopOf="@+id/editTextSize" />
+
+    <TextView
+        android:id="@+id/text_supplier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Supplier's number:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewSize"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSize" />
+
+    <Button
+        android:id="@+id/minus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="@+id/quantity"
+        app:layout_constraintEnd_toStartOf="@+id/quantity"
+        app:layout_constraintTop_toTopOf="@+id/quantity" />
+
+    <Button
+        android:id="@+id/plus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="@+id/quantity"
+        app:layout_constraintStart_toEndOf="@+id/quantity"
+        app:layout_constraintTop_toTopOf="@+id/quantity" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:text="0"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_number" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Call me"
+        app:layout_constraintEnd_toEndOf="@+id/plus_button"
+        app:layout_constraintStart_toStartOf="@+id/minus_button"
+        app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Quantity:"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/quantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/supplier_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Phone number"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_supplier"
+        app:layout_constraintEnd_toEndOf="@+id/editTextSize"
+        app:layout_constraintStart_toEndOf="@+id/text_supplier"
+        app:layout_constraintTop_toTopOf="@+id/text_supplier" />
 </android.support.constraint.ConstraintLayout>

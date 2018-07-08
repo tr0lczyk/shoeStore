@@ -25,6 +25,8 @@ public final class ShoesContract {
         public static final String COLUMN_COLOUR = "colour";
         public static final String COLUMN_GENDER = "gender";
         public static final String COLUMN_SIZE = "size";
+        public static final String COLUMN_QUANTITY = "quantity";
+        public static final String COLUMN_NUMBER = "number";
 
         public static final int GENDER_TYPE_METRO = 0;
         public static final int GENDER_TYPE_MALE = 1;

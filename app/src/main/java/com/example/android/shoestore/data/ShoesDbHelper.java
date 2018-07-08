@@ -23,7 +23,10 @@ public final class ShoesDbHelper extends SQLiteOpenHelper {
                 ShoeEntry.COLUMN_TYPE + " TEXT NOT NULL, " +
                 ShoeEntry.COLUMN_COLOUR + " TEXT, " +
                 ShoeEntry.COLUMN_GENDER + " INTEGER NOT NULL, " +
-                ShoeEntry.COLUMN_SIZE + " INTEGER NOT NULL DEFAULT 0);";
+                ShoeEntry.COLUMN_SIZE + " INTEGER NOT NULL DEFAULT 0, " +
+                ShoeEntry.COLUMN_QUANTITY + " INTEGER NOT NULL, " +
+                ShoeEntry.COLUMN_NUMBER + " INTEGER NOT NULL);";
+
         db.execSQL(SQL_CREATE_SHOES_TABLE);
     }
 

@@ -53,13 +53,10 @@ public class ShoesProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
-
-
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
-
 
     @Override
     public String getType(Uri uri) {
@@ -73,7 +70,7 @@ public class ShoesProvider extends ContentProvider {
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
-    
+
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
@@ -94,7 +91,7 @@ public class ShoesProvider extends ContentProvider {
 
         String colour = values.getAsString(ShoeEntry.COLUMN_COLOUR);
         if (colour == null) {
-            throw new IllegalArgumentException("Shoes require a colour");
+            throw new IllegalArgumentException("Shoes require a supplier's name");
         }
 
         Integer gender = values.getAsInteger(ShoeEntry.COLUMN_GENDER);
@@ -104,7 +101,17 @@ public class ShoesProvider extends ContentProvider {
 
         Integer size = values.getAsInteger(ShoeEntry.COLUMN_SIZE);
         if (size != null && size < 0) {
-            throw new IllegalArgumentException("Shoes require valid size");
+            throw new IllegalArgumentException("Shoes require valid price");
+        }
+
+        Integer quantity = values.getAsInteger(ShoeEntry.COLUMN_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Shoes require valid quantity");
+        }
+
+        Integer number = values.getAsInteger(ShoeEntry.COLUMN_NUMBER);
+        if (number != null && number < 0) {
+            throw new IllegalArgumentException("Shoes require valid supplier's number");
         }
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -183,8 +190,22 @@ public class ShoesProvider extends ContentProvider {
         }
 
         if (values.containsKey(ShoeEntry.COLUMN_SIZE)) {
-            Integer weight = values.getAsInteger(ShoeEntry.COLUMN_SIZE);
-            if (weight != null && weight < 0) {
+            Integer size = values.getAsInteger(ShoeEntry.COLUMN_SIZE);
+            if (size != null && size < 0) {
+                throw new IllegalArgumentException("Shoes require valid size");
+            }
+        }
+
+        if (values.containsKey(ShoeEntry.COLUMN_QUANTITY)) {
+            Integer quantity = values.getAsInteger(ShoeEntry.COLUMN_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Shoes require valid size");
+            }
+        }
+
+        if (values.containsKey(ShoeEntry.COLUMN_NUMBER)) {
+            Integer number = values.getAsInteger(ShoeEntry.COLUMN_NUMBER);
+            if (number != null && number < 0) {
                 throw new IllegalArgumentException("Shoes require valid size");
             }
         }

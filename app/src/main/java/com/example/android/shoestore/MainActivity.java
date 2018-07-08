@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.example.android.shoestore.data.ShoesContract.ShoeEntry;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ListView shoesListView = findViewById(R.id.shoes_list);
         shoesListView.setEmptyView(emptyLayout);
+
         shoesAdapter = new ShoesCursorAdapter(this, null);
         shoesListView.setAdapter(shoesAdapter);
 
@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ShoeEntry.COLUMN_COLOUR, "Blue");
         values.put(ShoeEntry.COLUMN_GENDER, ShoeEntry.GENDER_TYPE_MALE);
         values.put(ShoeEntry.COLUMN_SIZE, 44);
+        values.put(ShoeEntry.COLUMN_QUANTITY, 5);
+        values.put(ShoeEntry.COLUMN_NUMBER, 917894563);
 
         Uri newUri = getContentResolver().insert(ShoeEntry.CONTENT_URI, values);
     }
@@ -106,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = {
                 ShoeEntry._ID,
                 ShoeEntry.COLUMN_TYPE,
-                ShoeEntry.COLUMN_COLOUR};
+                ShoeEntry.COLUMN_SIZE,
+                ShoeEntry.COLUMN_QUANTITY};
 
         return new CursorLoader(this,
                 ShoeEntry.CONTENT_URI,

@@ -29,6 +29,9 @@
     <string name="discard">Discard</string>
     <string name="continue_editing">Continue editing</string>
     <string name="unknown_type">Unknown Type</string>
-    <string name="unknown_colour">Unknown colour</string>
+    <string name="unknown_colour">Unknown price</string>
+    <string name="unknown_quantity">Unknown quantity</string>
+    <string name="lower_than">Quantity cannot be lower than one!</string>
+    <string name="no_shoes">No pair of shoes left :(</string>
 
 </resources>

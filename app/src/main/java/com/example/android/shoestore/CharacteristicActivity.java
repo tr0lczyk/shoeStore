@@ -1,10 +1,12 @@
 package com.example.android.shoestore;
+
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,18 +19,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.android.shoestore.data.ShoesContract.ShoeEntry;
 import com.example.android.shoestore.data.ShoesDbHelper;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
 
 public class CharacteristicActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>  {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     @BindView(R.id.textViewColour)
     TextView textViewColour;
@@ -46,6 +52,18 @@ public class CharacteristicActivity extends AppCompatActivity implements
     EditText editTextSize;
     @BindView(R.id.spinnerGender)
     Spinner spinnerGender;
+    @BindView(R.id.supplier_number)
+    EditText supplierNumber;
+    @BindView(R.id.quantity)
+    TextView quantity;
+    @BindView(R.id.textView)
+    TextView textView;
+    @BindView(R.id.text_supplier)
+    TextView textSupplier;
+    @BindView(R.id.minus_button)
+    Button minusButton;
+    @BindView(R.id.plus_button)
+    Button plusButton;
 
     private int genderType;
 
@@ -56,6 +74,8 @@ public class CharacteristicActivity extends AppCompatActivity implements
     private static final int EXISTING_SHOES_LOADER = 0;
 
     private boolean shoesHasChanged = false;
+
+    private int quantityValue;
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
         @Override
@@ -74,36 +94,46 @@ public class CharacteristicActivity extends AppCompatActivity implements
         dbHelper = new ShoesDbHelper(this);
 
         Intent intent = getIntent();
-        Uri currentShoesUri = intent.getData();
+        currentShoesUri = intent.getData();
 
-        if (currentShoesUri == null){
+        if (currentShoesUri == null) {
             setTitle(getString(R.string.add_pair));
             invalidateOptionsMenu();
         } else {
             setTitle(getString(R.string.edit_pair));
-            getLoaderManager().initLoader(EXISTING_SHOES_LOADER, null,  this);
+            getLoaderManager().initLoader(EXISTING_SHOES_LOADER, null, this);
         }
 
         editTextType.setOnTouchListener(touchListener);
         editTextColour.setOnTouchListener(touchListener);
         editTextSize.setOnTouchListener(touchListener);
+        minusButton.setOnTouchListener(touchListener);
+        plusButton.setOnTouchListener(touchListener);
+        supplierNumber.setOnTouchListener(touchListener);
         spinnerGender.setOnTouchListener(touchListener);
+
     }
 
     private void saveShoes() {
         String typeString = editTextType.getText().toString().trim();
         String colourString = editTextColour.getText().toString().trim();
         String sizeString = editTextSize.getText().toString().trim();
+        String quantityString = quantity.getText().toString();
+        String numberString = supplierNumber.getText().toString();
 
         if (currentShoesUri == null &&
                 TextUtils.isEmpty(typeString) && TextUtils.isEmpty(colourString) &&
-                TextUtils.isEmpty(sizeString) && genderType == ShoeEntry.GENDER_TYPE_METRO) {
+                TextUtils.isEmpty(sizeString) && TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(numberString) &&
+                genderType == ShoeEntry.GENDER_TYPE_METRO) {
             return;
         }
         ContentValues values = new ContentValues();
         values.put(ShoeEntry.COLUMN_TYPE, typeString);
         values.put(ShoeEntry.COLUMN_COLOUR, colourString);
         values.put(ShoeEntry.COLUMN_GENDER, genderType);
+        values.put(ShoeEntry.COLUMN_QUANTITY, quantityString);
+        values.put(ShoeEntry.COLUMN_NUMBER, numberString);
         int size = 0;
         if (!TextUtils.isEmpty(sizeString)) {
             size = Integer.parseInt(sizeString);
@@ -133,7 +163,7 @@ public class CharacteristicActivity extends AppCompatActivity implements
         }
     }
 
-    private void setupSpinner(){
+    private void setupSpinner() {
         ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.gender_array,
                 android.R.layout.simple_spinner_item);
 
@@ -141,13 +171,14 @@ public class CharacteristicActivity extends AppCompatActivity implements
         spinnerGender.setAdapter(genderSpinnerAdapter);
     }
 
+
     @OnItemSelected(R.id.spinnerGender)
-    public void setSpinnerData(AdapterView<?> parent, int position){
+    public void setSpinnerData(AdapterView<?> parent, int position) {
         String genderSelect = (String) parent.getItemAtPosition(position);
-        if (!TextUtils.isEmpty(genderSelect)){
-            if(genderSelect.equals(R.string.gender_male)){
+        if (!TextUtils.isEmpty(genderSelect)) {
+            if (genderSelect.equals(R.string.gender_male)) {
                 genderType = ShoeEntry.GENDER_TYPE_MALE;
-            } else if(genderSelect.equals(R.string.gender_female)){
+            } else if (genderSelect.equals(R.string.gender_female)) {
                 genderType = ShoeEntry.GENDER_TYPE_FEMALE;
             } else {
                 genderType = ShoeEntry.GENDER_TYPE_METRO;
@@ -156,14 +187,14 @@ public class CharacteristicActivity extends AppCompatActivity implements
     }
 
     @OnItemSelected(value = R.id.spinnerGender, callback = OnItemSelected.Callback.NOTHING_SELECTED)
-    public void nothingSelected(){
+    public void nothingSelected() {
         genderType = ShoeEntry.GENDER_TYPE_METRO;
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_characteristic,menu);
+        getMenuInflater().inflate(R.menu.menu_characteristic, menu);
         return true;
     }
 
@@ -179,7 +210,7 @@ public class CharacteristicActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.save_button:
                 saveShoes();
                 finish();
@@ -204,7 +235,6 @@ public class CharacteristicActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     private void showUnsavedChangesDialog(
@@ -274,13 +304,15 @@ public class CharacteristicActivity extends AppCompatActivity implements
     }
 
     @Override
-    public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] project = {
                 ShoeEntry._ID,
                 ShoeEntry.COLUMN_TYPE,
                 ShoeEntry.COLUMN_COLOUR,
                 ShoeEntry.COLUMN_GENDER,
-                ShoeEntry.COLUMN_SIZE
+                ShoeEntry.COLUMN_SIZE,
+                ShoeEntry.COLUMN_QUANTITY,
+                ShoeEntry.COLUMN_NUMBER
         };
 
         return new CursorLoader(this,
@@ -292,7 +324,7 @@ public class CharacteristicActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor == null || cursor.getCount() < 1) {
             return;
         }
@@ -301,15 +333,22 @@ public class CharacteristicActivity extends AppCompatActivity implements
             int colourColumnIndex = cursor.getColumnIndex(ShoeEntry.COLUMN_COLOUR);
             int genderColumnIndex = cursor.getColumnIndex(ShoeEntry.COLUMN_GENDER);
             int sizeColumnIndex = cursor.getColumnIndex(ShoeEntry.COLUMN_SIZE);
+            int quantityColumnIndex = cursor.getColumnIndex(ShoeEntry.COLUMN_QUANTITY);
+            int numberColumnIndex = cursor.getColumnIndex(ShoeEntry.COLUMN_NUMBER);
 
-            String name = cursor.getString(typeColumnIndex);
-            String breed = cursor.getString(colourColumnIndex);
+            String type = cursor.getString(typeColumnIndex);
+            String colour = cursor.getString(colourColumnIndex);
             int gender = cursor.getInt(genderColumnIndex);
             int size = cursor.getInt(sizeColumnIndex);
+            quantityValue = cursor.getInt(quantityColumnIndex);
+            int number = cursor.getInt(numberColumnIndex);
 
-            editTextType.setText(name);
-            editTextColour.setText(breed);
+
+            editTextType.setText(type);
+            editTextColour.setText(colour);
             editTextSize.setText(Integer.toString(size));
+            quantity.setText(Integer.toString(quantityValue));
+            supplierNumber.setText(Integer.toString(number));
 
             switch (gender) {
                 case ShoeEntry.GENDER_TYPE_MALE:
@@ -326,10 +365,38 @@ public class CharacteristicActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         editTextType.setText("");
         editTextColour.setText("");
         editTextSize.setText("");
         spinnerGender.setSelection(0);
+        quantity.setText("1");
+        supplierNumber.setText("");
+    }
+
+    @OnClick(R.id.button2)
+    public void onViewClicked() {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", supplierNumber.getText().toString(), null));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.minus_button)
+    public void onMinusButtonClicked() {
+        if (quantityValue == 0) {
+            Toast.makeText(this, R.string.lower_than, Toast.LENGTH_SHORT).show();
+        } else {
+            quantityValue--;
+            displayQuantity();
+        }
+    }
+
+    @OnClick(R.id.plus_button)
+    public void onPlusButtonClicked() {
+        quantityValue++;
+        displayQuantity();
+    }
+
+    public void displayQuantity() {
+        quantity.setText(String.valueOf(quantityValue));
     }
 }
