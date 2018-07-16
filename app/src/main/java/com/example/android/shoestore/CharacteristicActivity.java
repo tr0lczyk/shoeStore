@@ -338,19 +338,9 @@ public class CharacteristicActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] project = {
-                ShoeEntry._ID,
-                ShoeEntry.COLUMN_TYPE,
-                ShoeEntry.COLUMN_COLOUR,
-                ShoeEntry.COLUMN_GENDER,
-                ShoeEntry.COLUMN_SIZE,
-                ShoeEntry.COLUMN_QUANTITY,
-                ShoeEntry.COLUMN_NUMBER
-        };
-
         return new CursorLoader(this,
                 currentShoesUri,
-                project,
+                null,
                 null,
                 null,
                 null);
